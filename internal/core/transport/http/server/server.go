@@ -27,6 +27,17 @@ func NewHTTPServer(
 	}
 }
 
+func (h *HTTPServer) RegisterAPIRouters(routers ...*APIVersionRouter) {
+	for _, router := range routers {
+		prefix := "/api/" + string(router.apiVersion)
+
+		h.mux.Handle(
+			prefix+"/",
+			http.StripPrefix(prefix, router),
+		)
+	}
+}
+
 // метод, который запускает HTTP-сервер и умеет его корректно останавливать (это называется graceful shutdown — "мягкое завершение").
 func (h *HTTPServer) Run(ctx context.Context) error {
 	server := &http.Server{
