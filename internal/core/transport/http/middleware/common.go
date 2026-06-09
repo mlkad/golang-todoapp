@@ -33,7 +33,7 @@ func RequestID() Middleware {
 func Logger(log *core_logger.Logger) Middleware {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			requestID := r.Header.Get("requestIDHeader")
+			requestID := r.Header.Get(requestIDHeader)
 
 			l := log.With(
 				zap.String("request_id", requestID),
@@ -74,7 +74,11 @@ func Trace() Middleware {
 
 			before := time.Now()
 
-			log.Debug(">> incoming HTTP request", zap.Time("time", before.UTC()))
+			log.Debug(
+				">> incoming HTTP request",
+				zap.String("http_method", r.Method),
+			 	zap.Time("time", before.UTC()),
+			)
 
 			next.ServeHTTP(rw, r) //след это уже хэндлер
 
