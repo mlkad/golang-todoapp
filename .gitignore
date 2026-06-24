@@ -1,6 +1,6 @@
 .env
 out
+.DS_Store
 
-# Local Wakapi server (not part of this project)
 wakapi
 wakapi_db.db

@@ -64,13 +64,53 @@ func (u *User) Validate() error {
 		re := regexp.MustCompile(`^\+[0-9]+$`)
 		if !re.MatchString(*u.PhoneNumber) {
 			return fmt.Errorf(
-				"invalid `PhoneNumber format: %w",
+				"invalid `PhoneNumber` format: %w",
 				core_errors.ErrInvalidArgument,
 			)
 		}
 	}
 	return nil
 }
+
+type UserPatch struct {
+	FullName Nullable[string]
+	PhoneNumber Nullable[string]
+}
+
+func (p *UserPatch) Validate() error {
+	if p.FullName.Set && p.FullName.Value == nil {
+		return fmt.Errorf(
+			"`FullName` can't be patched to NULL: %w", //потому что имя обязательно
+			core_errors.ErrInvalidArgument,
+		)
+	}
+	return nil
+}
+
+func (u *User) ApplyPatch(patch UserPatch) error {
+	if err := patch.Validate(); err != nil {
+		return fmt.Errorf("Validate user patch: %w", err)
+	}
+
+	tmp := *u //возьми значение, на которое указывает u
+
+	if patch.FullName.Set {
+		tmp.FullName = *patch.FullName.Value
+	}
+
+	if patch.PhoneNumber.Set {
+		tmp.PhoneNumber = patch.PhoneNumber.Value
+	}
+
+	if err := tmp.Validate(); err != nil {
+		return fmt.Errorf("validate patched user: %w", err)
+	}
+
+	*u = tmp
+	
+	return nil
+}
+ 
 
 /*
 HTTP слой (CreateUserRequest)
