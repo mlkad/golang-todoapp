@@ -42,11 +42,11 @@ func NewUserUninitialized(
 
 //это валидация перед сохранением в БД
 func (u *User) Validate() error {
-	fullNameLength := len([]rune(u.FullName))
-	if fullNameLength < 3 || fullNameLength > 100 {
+	fullNameLen := len([]rune(u.FullName))
+	if fullNameLen < 3 || fullNameLen > 100 {
 		return fmt.Errorf(
 			"invalid `FullName` len: %d: %w",
-			fullNameLength,
+			fullNameLen,
 			core_errors.ErrInvalidArgument,
 		)
 	}
@@ -76,6 +76,17 @@ type UserPatch struct {
 	FullName Nullable[string]
 	PhoneNumber Nullable[string]
 }
+
+func NewUserPatch(
+	fullName Nullable[string],
+	phoneNumber Nullable[string],
+) UserPatch {
+	return UserPatch {
+		FullName: fullName,
+		PhoneNumber: phoneNumber,
+	}
+}
+
 
 func (p *UserPatch) Validate() error {
 	if p.FullName.Set && p.FullName.Value == nil {

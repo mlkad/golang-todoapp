@@ -31,23 +31,23 @@ func NewHTTPServer(
 	}
 }
 
-func (h *HTTPServer) RegisterAPIRouters(routers ...*APIVersionRouter) {
+func (s *HTTPServer) RegisterAPIRouters(routers ...*APIVersionRouter) {
 	for _, router := range routers {
 		prefix := "/api/" + string(router.apiVersion)
 
-		h.mux.Handle(
+		s.mux.Handle(
 			prefix+"/",
-			http.StripPrefix(prefix, router),
+			http.StripPrefix(prefix, router.WithMiddleware()),
 		)
 	}
 }
 
 // метод, который запускает HTTP-сервер и умеет его корректно останавливать (это называется graceful shutdown — "мягкое завершение").
-func (h *HTTPServer) Run(ctx context.Context) error {
-	mux := core_http_middleware.ChainMiddleware(h.mux, h.middleware... )
+func (s *HTTPServer) Run(ctx context.Context) error {
+	mux := core_http_middleware.ChainMiddleware(s.mux, s.middleware... )
 
 	server := &http.Server{
-		Addr: h.config.Address,
+		Addr: s.config.Address,
 		Handler: mux,
 	}
 
@@ -55,7 +55,7 @@ func (h *HTTPServer) Run(ctx context.Context) error {
 	go func() {
 		defer close(ch) //когда горутина закончится, закроем канал
 
-		h.log.Warn("Start HTTP server", zap.String("addr", h.config.Address))
+		s.log.Warn("Start HTTP server", zap.String("addr", s.config.Address))
 		err := server.ListenAndServe()
 
 		if !errors.Is(err, http.ErrServerClosed) {
@@ -69,9 +69,9 @@ func (h *HTTPServer) Run(ctx context.Context) error {
 			return fmt.Errorf("listen and server HTTP: %w", err)
 		}
 	case <-ctx.Done():
-		h.log.Warn("shutdown HTTP server...")
+		s.log.Warn("shutdown HTTP server...")
 
-		shutdownCtx, cancel := context.WithTimeout(context.Background(), h.config.ShutdownTimeout,
+		shutdownCtx, cancel := context.WithTimeout(context.Background(), s.config.ShutdownTimeout,
 		)
 		defer cancel()
 
@@ -81,7 +81,7 @@ func (h *HTTPServer) Run(ctx context.Context) error {
 
 			return fmt.Errorf("shutdown HTTP server: %w", err)
 		}
-		h.log.Warn("HTTP server stopped")
+		s.log.Warn("HTTP server stopped")
 	}
 	return nil
 }

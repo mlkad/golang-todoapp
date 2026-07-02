@@ -9,7 +9,7 @@ import (
 
 type Config struct {
 	Address string `envconfig:"ADDR" required:"true"`
-	ShutdownTimeout time.Duration `envconfig:"SHUTDOWN_TIMEOUT" required:"true"`
+	ShutdownTimeout time.Duration `envconfig:"SHUTDOWN_TIMEOUT" default:"30s"`
 }
 
 //Из env читается HTTP_ADDR (:8080) и HTTP_SHUTDOWN_TIMEOUT
