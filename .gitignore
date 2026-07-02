@@ -1,2 +1,6 @@
 .env
 out
+.DS_Store
+
+wakapi
+wakapi_db.db
