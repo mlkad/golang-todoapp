@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	core_logger "github.com/mlkad/golang-todoapp/internal/core/logger"
-	core_http_response "github.com/mlkad/golang-todoapp/internal/core/transport/http/response"
 	core_http_request "github.com/mlkad/golang-todoapp/internal/core/transport/http/request"
+	core_http_response "github.com/mlkad/golang-todoapp/internal/core/transport/http/response"
 )
 
 type GetUserResponse UserDTOResponse
@@ -16,7 +16,7 @@ func (h *UsersHTTPHandler) GetUser(rw http.ResponseWriter, r *http.Request) {
 	responseHandler := core_http_response.NewHTTPResponseHandler(log, rw)
 
 	// GET /users/{id}
-	userID, err := core_http_request.GetIntPassValue(r, "id")
+	userID, err := core_http_request.GetIntPathValue(r, "id")
 	if err != nil {
 		responseHandler.ErrorResponse(
 			err,

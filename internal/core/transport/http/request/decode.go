@@ -9,7 +9,7 @@ import (
 	core_errors "github.com/mlkad/golang-todoapp/internal/core/errors"
 )
 
-//лучше снаружи
+// лучше снаружи
 var requestValidator = validator.New()
 
 type validatable interface {
@@ -18,7 +18,7 @@ type validatable interface {
 
 func DecodeAndValidateRequest(r *http.Request, dest any) error {
 	if err := json.NewDecoder(r.Body).Decode(dest); err != nil {
-		 return fmt.Errorf(
+		return fmt.Errorf(
 			"decode json: %v: %w",
 			err,
 			core_errors.ErrInvalidArgument,
@@ -34,7 +34,7 @@ func DecodeAndValidateRequest(r *http.Request, dest any) error {
 	if ok {
 		err = v.Validate()
 	} else {
-		err = requestValidator.Struct(dest) 
+		err = requestValidator.Struct(dest)
 	}
 
 	if err != nil {
@@ -43,7 +43,7 @@ func DecodeAndValidateRequest(r *http.Request, dest any) error {
 			err,
 			core_errors.ErrInvalidArgument,
 		)
-	}		
+	}
 
 	return nil
 }

@@ -13,7 +13,7 @@ import (
 
 type HTTPResponseHandler struct {
 	log *core_logger.Logger
-	rw http.ResponseWriter
+	rw  http.ResponseWriter
 }
 
 func NewHTTPResponseHandler(
@@ -22,7 +22,7 @@ func NewHTTPResponseHandler(
 ) *HTTPResponseHandler {
 	return &HTTPResponseHandler{
 		log: log,
-		rw: rw,
+		rw:  rw,
 	}
 }
 
@@ -44,7 +44,7 @@ func (h *HTTPResponseHandler) NoContentResponse() {
 func (h *HTTPResponseHandler) ErrorResponse(err error, msg string) {
 	var (
 		statusCode int
-		logFunc func(string, ...zap.Field)
+		logFunc    func(string, ...zap.Field)
 	)
 
 	switch {
@@ -95,7 +95,7 @@ func (h *HTTPResponseHandler) errorResponse(
 
 	response := map[string]string{
 		"message": msg,
-		"error": err.Error(),
+		"error":   err.Error(),
 	}
 
 	h.JSONResponse(

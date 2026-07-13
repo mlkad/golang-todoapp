@@ -47,20 +47,20 @@ func NewPool(
 	}, nil
 }
 
-//Query — «дай мне МНОГО строк»
+// Query — «дай мне МНОГО строк»
 func (p *Pool) Query(
 	ctx context.Context,
 	sql string,
 	args ...any,
 ) (core_postgres_pool.Rows, error) {
-	rows, err := p.Pool.Query(ctx, sql, args...) 
+	rows, err := p.Pool.Query(ctx, sql, args...)
 	if err != nil {
 		return nil, err
 	}
 	return pgxRows{rows}, nil
 }
 
-//QueryRow — «дай мне РОВНО ОДНУ строку»
+// QueryRow — «дай мне РОВНО ОДНУ строку»
 func (p *Pool) QueryRow(
 	ctx context.Context,
 	sql string,
@@ -75,7 +75,7 @@ func (p *Pool) Exec(
 	sql string,
 	args ...any,
 ) (core_postgres_pool.CommandTag, error) {
-	tag, err := p.Pool.Exec(ctx, sql, args...) 
+	tag, err := p.Pool.Exec(ctx, sql, args...)
 	if err != nil {
 		return nil, err
 	}

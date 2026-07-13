@@ -10,7 +10,7 @@ type UsersService struct {
 	usersRepository UsersRepository
 }
 
-//тут будут методы(что может делать)
+// тут будут методы(что может делать)
 type UsersRepository interface {
 	CreateUser(
 		ctx context.Context,

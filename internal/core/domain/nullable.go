@@ -8,10 +8,10 @@ package domain
 
 type NullableString struct {
 	Value *string
-	Set bool
-} 
+	Set   bool
+}
 
 type Nullable[T any] struct {
 	Value *T
-	Set bool
+	Set   bool
 }

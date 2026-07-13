@@ -8,11 +8,11 @@ import (
 )
 
 type Config struct {
-	Address string `envconfig:"ADDR" required:"true"`
+	Address         string        `envconfig:"ADDR" required:"true"`
 	ShutdownTimeout time.Duration `envconfig:"SHUTDOWN_TIMEOUT" default:"30s"`
 }
 
-//Из env читается HTTP_ADDR (:8080) и HTTP_SHUTDOWN_TIMEOUT
+// Из env читается HTTP_ADDR (:8080) и HTTP_SHUTDOWN_TIMEOUT
 func NewConfig() (Config, error) {
 	var config Config
 

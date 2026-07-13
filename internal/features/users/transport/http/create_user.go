@@ -10,11 +10,11 @@ import (
 )
 
 type CreateUserRequest struct {
-	FullName 		string  `json:"full_name" validate:"required,min=3,max=100"`
+	FullName    string  `json:"full_name" validate:"required,min=3,max=100"`
 	PhoneNumber *string `json:"phone_number" validate:"omitempty,min=10,max=15,startswith=+"`
 }
 
-//http ответ это ответ на user dto
+// http ответ это ответ на user dto
 type CreateUserResponse UserDTOResponse
 
 // CreateUser обрабатывает HTTP POST запрос на создание нового пользователя.
@@ -57,4 +57,3 @@ func (h *UsersHTTPHandler) CreateUser(rw http.ResponseWriter, r *http.Request) {
 func domainFromDTO(dto CreateUserRequest) domain.User {
 	return domain.NewUserUninitialized(dto.FullName, dto.PhoneNumber)
 }
-

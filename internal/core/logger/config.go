@@ -7,11 +7,11 @@ import (
 )
 
 type Config struct {
-	Level  string  `envconfig:"LEVEL" default:"DEBUG"`
-	Folder string  `envconfig:"FOLDER" required:"true"`
+	Level  string `envconfig:"LEVEL" default:"DEBUG"`
+	Folder string `envconfig:"FOLDER" required:"true"`
 }
 
-//читает env, заполняет struct 
+// читает env, заполняет struct
 func NewConfig() (Config, error) {
 	var config Config
 
@@ -22,7 +22,7 @@ func NewConfig() (Config, error) {
 	return config, nil
 }
 
-//либо конфиг есть, либо приложение вообще не должно запускаться
+// либо конфиг есть, либо приложение вообще не должно запускаться
 func NewConfigMust() Config {
 	config, err := NewConfig()
 	if err != nil {

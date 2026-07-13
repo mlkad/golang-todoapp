@@ -9,8 +9,9 @@ import (
 type Nullable[T any] struct {
 	domain.Nullable[T]
 }
+
 /*
-мой UnmarshalJSON оборачивает json.Unmarshal, 
+мой UnmarshalJSON оборачивает json.Unmarshal,
 чтобы вокруг добавить Set = true и проверку на null
 */
 
@@ -23,7 +24,7 @@ func (n *Nullable[T]) UnmarshalJSON(b []byte) error {
 		return nil
 	}
 
-	var value T 
+	var value T
 	if err := json.Unmarshal(b, &value); err != nil {
 		return err
 	}
@@ -36,6 +37,6 @@ func (n *Nullable[T]) UnmarshalJSON(b []byte) error {
 func (n *Nullable[T]) ToDomain() domain.Nullable[T] {
 	return domain.Nullable[T]{
 		Value: n.Value,
-		Set: n.Set,
+		Set:   n.Set,
 	}
 }
