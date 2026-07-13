@@ -12,7 +12,7 @@ env-down:
 env-cleanup:
 	@read -p "Очистить все volume файлы окружения? Опасность потери данных. [y/n]: " ans; \
 	if [ "$$ans" = "y" ]; then \
-		docker compose down todoapp-postgres post-forwarder && \
+		docker compose down todoapp-postgres port-forwarder && \
 		rm -rf ${PROJECT_ROOT}/out/pgdata && \
 		echo "Файлы окружения очищены."; \
 	else \

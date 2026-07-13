@@ -4,7 +4,7 @@ import "net/http"
 
 type Middleware func(http.Handler) http.Handler
 
-//склеить несколько middleware в одну цепочку вокруг HTTP handler
+// склеить несколько middleware в одну цепочку вокруг HTTP handler
 func ChainMiddleware(
 	h http.Handler,
 	m ...Middleware,

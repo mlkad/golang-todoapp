@@ -22,9 +22,8 @@ import (
             └─→ молчание  ─┴→ позиция "nil"  ❌ (слиплись, не разобрать кто есть кто)
 */
 
-
 type PatchUserRequest struct {
-	FullName core_http_types.Nullable[string] `json:"full_name"`
+	FullName    core_http_types.Nullable[string] `json:"full_name"`
 	PhoneNumber core_http_types.Nullable[string] `json:"phone_number"`
 }
 
@@ -61,7 +60,7 @@ func (h *UsersHTTPHandler) PatchUser(rw http.ResponseWriter, r *http.Request) {
 	log := core_logger.FromContext(ctx)
 	responseHandler := core_http_response.NewHTTPResponseHandler(log, rw)
 
-	userID, err := core_http_request.GetIntPassValue(r, "id")
+	userID, err := core_http_request.GetIntPathValue(r, "id")
 	if err != nil {
 		responseHandler.ErrorResponse(
 			err,
@@ -99,5 +98,5 @@ func userPatchFromRequest(request PatchUserRequest) domain.UserPatch {
 	return domain.NewUserPatch(
 		request.FullName.ToDomain(),
 		request.PhoneNumber.ToDomain(),
-	) 
+	)
 }

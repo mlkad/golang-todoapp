@@ -5,14 +5,14 @@ import (
 	"net/http"
 
 	core_logger "github.com/mlkad/golang-todoapp/internal/core/logger"
-	core_http_response "github.com/mlkad/golang-todoapp/internal/core/transport/http/response"
 	core_http_request "github.com/mlkad/golang-todoapp/internal/core/transport/http/request"
+	core_http_response "github.com/mlkad/golang-todoapp/internal/core/transport/http/response"
 )
 
 type GetUsersResponse []UserDTOResponse
 
 func (h *UsersHTTPHandler) GetUsers(rw http.ResponseWriter, r *http.Request) {
-	ctx := r.Context() 
+	ctx := r.Context()
 	log := core_logger.FromContext(ctx)
 	responseHandler := core_http_response.NewHTTPResponseHandler(log, rw)
 
@@ -43,7 +43,7 @@ func (h *UsersHTTPHandler) GetUsers(rw http.ResponseWriter, r *http.Request) {
 
 func getLimitOffsetQueryParams(r *http.Request) (*int, *int, error) {
 	const (
-		limitQueryParamKey = "limit"
+		limitQueryParamKey  = "limit"
 		offsetQueryParamKey = "offset"
 	)
 	limit, err := core_http_request.GetIntQueryParam(r, limitQueryParamKey)
@@ -52,10 +52,10 @@ func getLimitOffsetQueryParams(r *http.Request) (*int, *int, error) {
 	}
 
 	offset, err := core_http_request.GetIntQueryParam(r, offsetQueryParamKey)
- 
+
 	if err != nil {
 		return nil, nil, fmt.Errorf("get 'offset' query param: %w", err)
 	}
-	
+
 	return limit, offset, nil
 }

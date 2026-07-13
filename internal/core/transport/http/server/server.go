@@ -12,9 +12,9 @@ import (
 )
 
 type HTTPServer struct {
-	mux *http.ServeMux
-	config Config
-	log *core_logger.Logger
+	mux        *http.ServeMux
+	config     Config
+	log        *core_logger.Logger
 	middleware []core_http_middleware.Middleware
 }
 
@@ -22,11 +22,11 @@ func NewHTTPServer(
 	config Config,
 	log *core_logger.Logger,
 	middleware ...core_http_middleware.Middleware,
-	) *HTTPServer {
+) *HTTPServer {
 	return &HTTPServer{
-		mux: http.NewServeMux(),
-		config: config,
-		log: log,
+		mux:        http.NewServeMux(),
+		config:     config,
+		log:        log,
 		middleware: middleware,
 	}
 }
@@ -44,10 +44,10 @@ func (s *HTTPServer) RegisterAPIRouters(routers ...*APIVersionRouter) {
 
 // метод, который запускает HTTP-сервер и умеет его корректно останавливать (это называется graceful shutdown — "мягкое завершение").
 func (s *HTTPServer) Run(ctx context.Context) error {
-	mux := core_http_middleware.ChainMiddleware(s.mux, s.middleware... )
+	mux := core_http_middleware.ChainMiddleware(s.mux, s.middleware...)
 
 	server := &http.Server{
-		Addr: s.config.Address,
+		Addr:    s.config.Address,
 		Handler: mux,
 	}
 
@@ -71,8 +71,7 @@ func (s *HTTPServer) Run(ctx context.Context) error {
 	case <-ctx.Done():
 		s.log.Warn("shutdown HTTP server...")
 
-		shutdownCtx, cancel := context.WithTimeout(context.Background(), s.config.ShutdownTimeout,
-		)
+		shutdownCtx, cancel := context.WithTimeout(context.Background(), s.config.ShutdownTimeout)
 		defer cancel()
 
 		//просим завершиться аккуратно и не принимать новые http запросы

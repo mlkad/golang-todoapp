@@ -20,7 +20,7 @@ var (
 //todo: add logger interface (zap)
 
 type Logger struct {
-	 *zap.Logger 
+	*zap.Logger
 
 	file *os.File
 }
@@ -33,7 +33,7 @@ func ToContext(ctx context.Context, log *Logger) context.Context {
 	)
 }
 
-//достаёт логгер из контекста (его туда кладёт middleware)
+// достаёт логгер из контекста (его туда кладёт middleware)
 func FromContext(ctx context.Context) *Logger {
 	log, ok := ctx.Value(key).(*Logger)
 	if !ok {
@@ -49,16 +49,16 @@ func NewLogger(config Config) (*Logger, error) {
 		return nil, fmt.Errorf("unmarshal log level: %w", err)
 	}
 	// os.MkdirAll — создаёт папку для логов
-	if err := os.MkdirAll(config.Folder, 0755); err != nil {// владелец может читать/писать/запускать
+	if err := os.MkdirAll(config.Folder, 0755); err != nil { // владелец может читать/писать/запускать
 		return nil, fmt.Errorf("mkdir log folder: %w", err)
-	} 
+	}
 	timestamp := time.Now().UTC().Format("2006-01-02T15-04-05.00000")
 	logFilePath := filepath.Join(
 		config.Folder,
 		fmt.Sprintf("%s.log", timestamp),
 	)
 
-	logFile, err := os.OpenFile(logFilePath, os.O_CREATE | os.O_WRONLY, 0644)
+	logFile, err := os.OpenFile(logFilePath, os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		return nil, fmt.Errorf("open log file: %w", err)
 	}
@@ -78,7 +78,7 @@ func NewLogger(config Config) (*Logger, error) {
 
 	return &Logger{
 		Logger: zapLogger,
-		file: logFile,
+		file:   logFile,
 	}, nil
 }
 
@@ -86,15 +86,12 @@ func NewLogger(config Config) (*Logger, error) {
 func (l *Logger) With(field ...zap.Field) *Logger {
 	return &Logger{
 		Logger: l.Logger.With(field...),
-		file: l.file,
+		file:   l.file,
 	}
 }
 
-func (l *Logger ) Close() {
+func (l *Logger) Close() {
 	if err := l.file.Close(); err != nil {
 		fmt.Println("failed to close application logger")
 	}
 }
-
-
-

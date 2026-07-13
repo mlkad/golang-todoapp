@@ -26,13 +26,13 @@ func NewAPIVersionRouter(
 	middleware ...core_http_middleware.Middleware,
 ) *APIVersionRouter {
 	return &APIVersionRouter{
-		ServeMux: http.NewServeMux(),
+		ServeMux:   http.NewServeMux(),
 		apiVersion: apiVersion,
 		middleware: middleware,
 	}
 }
 
-//метод который позволяет в NewAPIVersionRouter регистрировать роуты
+// метод который позволяет в NewAPIVersionRouter регистрировать роуты
 func (r *APIVersionRouter) RegisterRoutes(routes ...Route) {
 	for _, route := range routes {
 		pattern := fmt.Sprintf("%s %s", route.Method, route.Path)
@@ -43,7 +43,7 @@ func (r *APIVersionRouter) RegisterRoutes(routes ...Route) {
 
 func (r *APIVersionRouter) WithMiddleware() http.Handler {
 	return core_http_middleware.ChainMiddleware(
-			r,
-			r.middleware...,
-		)
+		r,
+		r.middleware...,
+	)
 }

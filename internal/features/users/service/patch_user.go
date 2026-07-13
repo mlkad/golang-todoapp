@@ -7,7 +7,7 @@ import (
 	"github.com/mlkad/golang-todoapp/internal/core/domain"
 )
 
-func (s *UsersService) 	PatchUser(
+func (s *UsersService) PatchUser(
 	ctx context.Context,
 	id int,
 	patch domain.UserPatch,

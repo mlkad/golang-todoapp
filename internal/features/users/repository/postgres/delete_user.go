@@ -7,7 +7,7 @@ import (
 	core_errors "github.com/mlkad/golang-todoapp/internal/core/errors"
 )
 
-func (r *UsersRepository)	DeleteUser(
+func (r *UsersRepository) DeleteUser(
 	ctx context.Context,
 	id int,
 ) error {

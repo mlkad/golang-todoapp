@@ -12,7 +12,7 @@ import (
 GET /users/123
 */
 
-func GetIntPassValue(r *http.Request, key string) (int, error) {
+func GetIntPathValue(r *http.Request, key string) (int, error) {
 	pathValue := r.PathValue(key)
 	if pathValue == "" {
 		return 0, fmt.Errorf(
@@ -21,7 +21,7 @@ func GetIntPassValue(r *http.Request, key string) (int, error) {
 			core_errors.ErrInvalidArgument,
 		)
 	}
-	
+
 	val, err := strconv.Atoi(pathValue)
 	if err != nil {
 		return 0, fmt.Errorf(
@@ -33,4 +33,4 @@ func GetIntPassValue(r *http.Request, key string) (int, error) {
 		)
 	}
 	return val, nil
-} 
+}

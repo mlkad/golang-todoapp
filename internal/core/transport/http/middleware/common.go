@@ -15,15 +15,15 @@ const requestIDHeader = "X-Request-ID"
 func RequestID() Middleware {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				requestID := r.Header.Get(requestIDHeader)
-				// клиент не передал айдишник запроса
-				if requestID == "" {
-					requestID = uuid.NewString()
-				}
-				r.Header.Set(requestIDHeader, requestID)
-				w.Header().Set(requestIDHeader, requestID)
+			requestID := r.Header.Get(requestIDHeader)
+			// клиент не передал айдишник запроса
+			if requestID == "" {
+				requestID = uuid.NewString()
+			}
+			r.Header.Set(requestIDHeader, requestID)
+			w.Header().Set(requestIDHeader, requestID)
 
-				next.ServeHTTP(w, r)
+			next.ServeHTTP(w, r)
 		})
 	}
 }
@@ -58,7 +58,7 @@ func Trace() Middleware {
 			log.Debug(
 				">> incoming HTTP request",
 				zap.String("http_method", r.Method),
-			 	zap.Time("time", before.UTC()),
+				zap.Time("time", before.UTC()),
 			)
 
 			next.ServeHTTP(rw, r) //след это уже хэндлер
@@ -77,7 +77,7 @@ func Panic() Middleware {
 
 			defer func() {
 				if p := recover(); p != nil {
-					responseHandler.PanicResponse(p, "during handler HTTP request got unexpected panic",)
+					responseHandler.PanicResponse(p, "during handler HTTP request got unexpected panic")
 				}
 			}()
 
@@ -85,4 +85,3 @@ func Panic() Middleware {
 		})
 	}
 }
-

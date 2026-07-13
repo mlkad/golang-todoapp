@@ -8,11 +8,11 @@ import (
 )
 
 type User struct {
-	ID 			int
-	Version int
-	FullName string
+	ID          int
+	Version     int
+	FullName    string
 	PhoneNumber *string
-} 
+}
 
 func NewUser(
 	id int,
@@ -21,9 +21,9 @@ func NewUser(
 	phoneNumber *string,
 ) User {
 	return User{
-		ID: id,
-		Version: version,
-		FullName: fullName,
+		ID:          id,
+		Version:     version,
+		FullName:    fullName,
 		PhoneNumber: phoneNumber,
 	}
 }
@@ -40,7 +40,7 @@ func NewUserUninitialized(
 	)
 }
 
-//это валидация перед сохранением в БД
+// это валидация перед сохранением в БД
 func (u *User) Validate() error {
 	fullNameLen := len([]rune(u.FullName))
 	if fullNameLen < 3 || fullNameLen > 100 {
@@ -60,7 +60,7 @@ func (u *User) Validate() error {
 				core_errors.ErrInvalidArgument,
 			)
 		}
-		
+
 		re := regexp.MustCompile(`^\+[0-9]+$`)
 		if !re.MatchString(*u.PhoneNumber) {
 			return fmt.Errorf(
@@ -73,7 +73,7 @@ func (u *User) Validate() error {
 }
 
 type UserPatch struct {
-	FullName Nullable[string]
+	FullName    Nullable[string]
 	PhoneNumber Nullable[string]
 }
 
@@ -81,12 +81,11 @@ func NewUserPatch(
 	fullName Nullable[string],
 	phoneNumber Nullable[string],
 ) UserPatch {
-	return UserPatch {
-		FullName: fullName,
+	return UserPatch{
+		FullName:    fullName,
 		PhoneNumber: phoneNumber,
 	}
 }
-
 
 func (p *UserPatch) Validate() error {
 	if p.FullName.Set && p.FullName.Value == nil {
@@ -118,10 +117,9 @@ func (u *User) ApplyPatch(patch UserPatch) error {
 	}
 
 	*u = tmp
-	
+
 	return nil
 }
- 
 
 /*
 HTTP слой (CreateUserRequest)
