@@ -31,6 +31,6 @@ func NewConfigMust() *Config {
 		err = fmt.Errorf("get core config: %w", err)
 		panic(err)
 	}
-	
-	return config 
+
+	return config
 }
