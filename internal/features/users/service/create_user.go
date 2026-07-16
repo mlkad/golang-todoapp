@@ -7,7 +7,7 @@ import (
 	"github.com/mlkad/golang-todoapp/internal/core/domain"
 )
 
-func (s UsersService) CreateUser(
+func (s *UsersService) CreateUser(
 	ctx context.Context,
 	user domain.User,
 ) (domain.User, error) {
