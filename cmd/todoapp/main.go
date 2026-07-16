@@ -7,6 +7,7 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+	_ "time/tzdata"
 
 	core_config "github.com/mlkad/golang-todoapp/internal/core/config"
 	core_logger "github.com/mlkad/golang-todoapp/internal/core/logger"
