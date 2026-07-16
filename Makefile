@@ -27,7 +27,7 @@ env-port-close:
 
 migrate-create:
 	@if [ -z "$(seq)" ]; then \
-		echo "Отсутсвует необходимый параметр `seq`. Пример: make migrate-create seq=init" \
+		echo "Отсутсвует необходимый параметр 'seq'. Пример: make migrate-create seq=init"; \
 		exit 1; \
 	fi
 	@docker compose run --rm todoapp-postgres-migrate \
@@ -67,3 +67,12 @@ todoapp-run:
 	export POSTGRES_HOST=localhost && \
 	go mod tidy && \
 	go run ${PROJECT_ROOT}/cmd/todoapp/main.go
+
+todoapp-deploy:
+	@docker compose up -d --build todoapp
+
+ps:
+	@docker compose ps
+
+todoapp-undeploy:
+	@docker compose down todoapp
