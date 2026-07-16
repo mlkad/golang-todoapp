@@ -7,12 +7,12 @@ import (
 	"github.com/mlkad/golang-todoapp/internal/core/domain"
 )
 
-func (s UsersService) CreateUser(
+func (s *UsersService) CreateUser(
 	ctx context.Context,
 	user domain.User,
 ) (domain.User, error) {
 	if err := user.Validate(); err != nil {
-		return domain.User{}, fmt.Errorf("validate user domaun: %w", err)
+		return domain.User{}, fmt.Errorf("validate user domain: %w", err)
 	}
 
 	//сохраняет в бд через репозиторий
