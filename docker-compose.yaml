@@ -4,6 +4,8 @@ services:
       context: ${PROJECT_ROOT}
       dockerfile: ${PROJECT_ROOT}/cmd/todoapp/Dockerfile
     container_name: todoapp
+    depends_on:
+      - todoapp-postgres
     environment:
       - HTTP_ADDR=:5050
       - HTTP_SHUTDOWN_TIMEOUT=${HTTP_SHUTDOWN_TIMEOUT}
